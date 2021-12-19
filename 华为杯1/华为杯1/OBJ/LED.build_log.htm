@@ -1,0 +1,64 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: μVision V5.28.0.0
+Copyright (C) 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: ghuyh fsdf, rtgrg, LIC=NQQMA-1F5JQ-127LE-5HEQB-AMN3U-42944
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.28.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 6 (build 750)
+Assembler:       Armasm.exe V5.06 update 6 (build 750)
+Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
+Library Manager: ArmAr.exe V5.06 update 6 (build 750)
+Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
+CPU DLL:         SARMCM3.DLL V5.28.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.6.0
+Dialog DLL:      TCM.DLL V1.36.2.0
+ 
+<h2>Project:</h2>
+C:\Users\xiang\Desktop\华为杯1\华为杯1\USER\FreeRTOS.uvprojx
+Project File Date:  11/08/2021
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'FreeRTOS'
+compiling mpu6050.c...
+..\HARDWARE\MPU6050\mpu6050.c(384): error:  #20: identifier "RCC_APB2Periph_AFIO" is undefined
+      RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE); //外部中断，需要使能AFIO时钟
+..\HARDWARE\MPU6050\mpu6050.c(385): error:  #20: identifier "RCC_APB2Periph_GPIOB" is undefined
+      RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE); //使能PB端口时钟
+..\HARDWARE\MPU6050\mpu6050.c(387): error:  #20: identifier "GPIO_Mode_IPU" is undefined
+      GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;         //上拉输入
+..\HARDWARE\MPU6050\mpu6050.c(389): warning:  #188-D: enumerated type mixed with another type
+  	GPIO_InitStructure.GPIO_PuPd =GPIO_OType_OD;
+..\HARDWARE\MPU6050\mpu6050.c(388): warning:  #188-D: enumerated type mixed with another type
+  	GPIO_InitStructure.GPIO_OType = 
+..\HARDWARE\MPU6050\mpu6050.c(391): warning:  #223-D: function "GPIO_EXTILineConfig" declared implicitly
+      GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource5);
+..\HARDWARE\MPU6050\mpu6050.c(391): error:  #20: identifier "GPIO_PortSourceGPIOB" is undefined
+      GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource5);
+..\HARDWARE\MPU6050\mpu6050.c: 3 warnings, 4 errors
+"..\OBJ\LED.axf" - 4 Error(s), 3 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F4xx_DFP.2.10.0.pack
+                Keil.STM32F4xx_DFP.2.10.0
+                STMicroelectronics STM32F4 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_FreeRTOS
+  C:\Users\xiang\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.10.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+
+<h2>Collection of Component Files used:</h2>
+Target not created.
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>
