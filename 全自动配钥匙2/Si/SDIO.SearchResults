@@ -1,0 +1,3 @@
+---- DMA_InitTypeDef Matches (2 in 1 files) ----
+SDIO.c (e:\我的桌面\stm32_sd\user):	DMA_InitTypeDef DMA_InitStructure;
+SDIO.c (e:\我的桌面\stm32_sd\user):	DMA_InitTypeDef DMA_InitStructure;
