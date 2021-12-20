@@ -1,0 +1,42 @@
+/*
+ *  CMSIS Pack Debug Access Sequence Log
+ *  File        : C:\Users\xiang\Desktop\ÉãÏñÍ·OV7725 Ì½Ë÷Õß\ÉãÏñÍ·OV7725 Ì½Ë÷Õß\ÉãÏñÍ·OV7725+Ì½Ë÷Õß\USER\OV7725_Sequences_0000.log
+ *  Created     : 20:56:02 (06/11/2021)
+ *  Device      : STM32F407ZE
+ *  PDSC File   : C:\Users\xiang\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.10.0\Keil.STM32F4xx_DFP.pdsc
+ *  Config File : C:\Users\xiang\Desktop\ÉãÏñÍ·OV7725 Ì½Ë÷Õß\ÉãÏñÍ·OV7725 Ì½Ë÷Õß\ÉãÏñÍ·OV7725+Ì½Ë÷Õß\USER\DebugConfig\Target_1_STM32F407ZE.dbgconf
+ *
+ */
+
+[20:56:03.000]  **********  Sequence "DebugCoreStart"  (Context="Connect", Pname="", info="")
+[20:56:03.000]  
+[20:56:03.000]  <debugvars>
+[20:56:03.000]    __protocol=0x00010002   (Protocol="SWD", SWJ-DP="True")
+[20:56:03.000]    __connection=0x00020002   (Connection Type="Flash", Reset Type="Reset Error", Pre-Connect HW Reset)
+[20:56:03.000]    __dp=0x00000000
+[20:56:03.000]    __ap=0x00000000
+[20:56:03.000]    __traceout=0x00000000   (Trace Disabled)
+[20:56:03.000]    __errorcontrol=0x00000000   (Skip Errors="False")
+[20:56:03.000]    __FlashAddr=0x00000000
+[20:56:03.001]    __FlashLen=0x00000000
+[20:56:03.001]    __FlashArg=0x00000000
+[20:56:03.001]    __FlashOp=0x00000000
+[20:56:03.001]    __Result=0x00000000
+[20:56:03.002]    DbgMCU_CR=0x00000007
+[20:56:03.002]    DbgMCU_APB1_Fz=0x00000000
+[20:56:03.002]    DbgMCU_APB2_Fz=0x00000000
+[20:56:03.002]  </debugvars>
+[20:56:03.002]  
+[20:56:03.002]  <sequence name="DebugCoreStart" Pname="" disable="false" info="">
+[20:56:03.002]    <block atomic="false" info="">
+[20:56:03.002]      Write32(0xE000EDF0, 0xA05F0001);                                        // Enable Core Debug via DHCSR
+[20:56:03.002]        // -> [Write32(0xE000EDF0, 0xA05F0001)] (__dp=0, __ap=0)
+[20:56:03.002]      Write32(0xE0042004, DbgMCU_CR);                                         // DBGMCU_CR: Configure MCU Debug
+[20:56:03.003]        // -> [Write32(0xE0042004, 0x00000007)] (__dp=0, __ap=0)
+[20:56:03.003]      Write32(0xE0042008, DbgMCU_APB1_Fz);                                    // DBGMCU_APB1_FZ: Configure APB1 Peripheral Freeze Behavior
+[20:56:03.003]        // -> [Write32(0xE0042008, 0x00000000)] (__dp=0, __ap=0)
+[20:56:03.003]      Write32(0xE004200C, DbgMCU_APB2_Fz);                                    // DBGMCU_APB1_FZ: Configure APB2 Peripheral Freeze Behavior
+[20:56:03.004]        // -> [Write32(0xE004200C, 0x00000000)] (__dp=0, __ap=0)
+[20:56:03.004]    </block>
+[20:56:03.004]  </sequence>
+[20:56:03.004]  
