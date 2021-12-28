@@ -190,7 +190,7 @@ void PID_Control(PID* motor_type)
 {
 //  float error_position;
 	motor_type->error_last=motor_type->error_now;
-	motor_type->error_now = motor_type->ref - motor_type->fdb;
+	motor_type->error_now = motor_type->ref - motor_type->fdb;//
 	motor_type->error_rate=motor_type->error_now-motor_type->error_last;
 	motor_type->error_inter += motor_type->error_now;
 	// limit intergration of pid

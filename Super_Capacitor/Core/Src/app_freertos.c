@@ -54,7 +54,7 @@ else if(val>=max)\
 /* USER CODE BEGIN PM */
 
 InaReal_Data  INAReal_Data={0};
-int MAX_TIM=1440;
+int MAX_TIM=1104;
  float adc_voltage,Real_Voltage,TEST_PWER=12.0f,IAN_I_put=0,voltate = 0,voltate12=23.3f;
 unsigned char INA_IN = 0,wait = 0,flag123=0;
 
@@ -190,6 +190,7 @@ void MX_FREERTOS_Init(void) {
   * @retval None
   */
 /* USER CODE END Header_Start_Power */
+int count=0;
 void Start_Power(void const * argument)
 {
     
@@ -200,21 +201,29 @@ void Start_Power(void const * argument)
   /* USER CODE BEGIN Start_Power */
   /* Infinite loop */
   for(;;)
+	
   {
-						if(Real_Voltage<=TEST_PWER)
+//		  INA260_DataUpdate();
+//		  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, count);
+//			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);//超级电容输出通路通
+//			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_RESET);//电池输出通路断
+			
+		if(Real_Voltage<=TEST_PWER)
 		{ 
 			flag123=1;
 		   
 		}
 		else if(Real_Voltage>=22.5f)
 		{
-		 flag123=0;
+		  flag123=0;
 		}
 		if(flag123==0)
-		{Power_Mod_Select(40,1);}
+		{
+		  Power_Mod_Select(100,1);
+		}
 		else
 		{
-			Power_Mod_Select(40,2);
+			Power_Mod_Select(100,2);
 		}
     osDelay(1);
   }
@@ -234,10 +243,10 @@ void Start_Adc(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    HAL_ADC_Start(&hadc1);
-		if(HAL_ADC_PollForConversion(&hadc1,0xff)==HAL_OK)
+    HAL_ADC_Start(&hadc2);
+		if(HAL_ADC_PollForConversion(&hadc2,0xff)==HAL_OK)
 			{
-			 adc_voltage=HAL_ADC_GetValue(&hadc1)*3.3/4096;
+			 adc_voltage=HAL_ADC_GetValue(&hadc2)*3.3/4096;
 			}
 		Real_Voltage=adc_voltage*7.62f;
 		INA_IN=INA_IN+1;
@@ -283,27 +292,27 @@ void Callback01(void const * argument)
 	switch(flag)
 	{
 		case 1:
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);//超级电容输出通路通
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);//电池输出通路断
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);//超级电容输出通路通
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_RESET);//电池输出通路断
 			break;
 		case 2:
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);//超级电容输出通路通
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);//电池输出通路通//双通只走电池
-//		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3|GPIO_PIN_4, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);//超级电容输出通路通
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_RESET);//电池输出通路通//双通只走电池
+
 			break;
 		default:
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_RESET);
 			break;
 	}
 	switch(inpower)
 	{
 		case 0:
 			IAN_I_put = 0;
-			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, IAN_I_put);
+			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, IAN_I_put);
 			break;
 		case 40:
-			current_select(1660,40);
+			current_select(1660,40);//
 			break;
 		case 45:
 			current_select(1875,45);
@@ -335,14 +344,15 @@ void Callback01(void const * argument)
 		break;
 	}
 } 
+float change_rate;
 void current_select(float current,float power)
 {
 	if(INA_IN >50)
 	{
 		INA260_DataUpdate();
-		osDelay(2);
-			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, IAN_I_put);
 			osDelay(2);
+			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, IAN_I_put);
+				osDelay(2);
 		if(Real_Voltage<2)
 		{
 			wait++;
@@ -354,10 +364,10 @@ void current_select(float current,float power)
 			else if(wait>200&&INAReal_Data.current>current)
 			{
 				wait = 210;
-				IAN_I_put = IAN_I_put + 0.1f;
+				IAN_I_put = IAN_I_put - 0.1f;
 			}
-			VAL_LIMIT(IAN_I_put,0,MAX_TIM-1);
-			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, IAN_I_put);
+			VAL_LIMIT(IAN_I_put,0,MAX_TIM);
+			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, IAN_I_put);
 //			LED0_Runsign(10);
 		}
 		else if(Real_Voltage<5&&Real_Voltage>2)
@@ -370,8 +380,8 @@ void current_select(float current,float power)
 			{
 				IAN_I_put = IAN_I_put - 0.3f;
 			}
-			VAL_LIMIT(IAN_I_put,0,MAX_TIM-1);
-			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, IAN_I_put);
+			VAL_LIMIT(IAN_I_put,0,MAX_TIM);
+			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, IAN_I_put);
 //			LED0_Runsign(20);
 		}
 		else if(Real_Voltage<10&&Real_Voltage>5)
@@ -385,9 +395,9 @@ void current_select(float current,float power)
 			{
 				IAN_I_put = IAN_I_put - 0.5f;
 			}
-			VAL_LIMIT(IAN_I_put,0,MAX_TIM-1);
+			VAL_LIMIT(IAN_I_put,0,MAX_TIM);
 //			LED0_Runsign(40);
-			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, IAN_I_put);
+			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, IAN_I_put);
 		}
 		else
 		{
@@ -399,14 +409,14 @@ void current_select(float current,float power)
 				voltate = voltate12;
 			}
 			Current_PID(current,voltate);
-//			if(Real_Voltage<21)
-//			{
-////				LED0_Runsign(100);
-//			}
-//			else
-//			{
-////				LED0_ON;
-//			}
+			if(Real_Voltage<21)
+			{
+				HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
+			}
+			else
+			{
+				HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
+			}
 		}
 	}			
 }
@@ -419,18 +429,19 @@ void Current_PID(int MAXCurrent,float MAXVoltage)
 	pid_voltage.ref=Real_Voltage;
 	pid_voltage.fdb=MAXVoltage;
 	PID_Set(&pid_voltage,voltageP,voltageI,voltageD,2000);
-	PID_Control(&pid_voltage);
-	VAL_LIMIT(pid_voltage.pid_out,-MAXCurrent,MAXCurrent);
+	PID_Control(&pid_voltage);//电容电压-输入电压
+	VAL_LIMIT(pid_voltage.pid_out,-MAXCurrent,MAXCurrent);//限电流
 	
-	pid_current.ref=-pid_voltage.pid_out;
-	pid_current.fdb=INAReal_Data.current;
+	pid_current.ref=-pid_voltage.pid_out;//
+	pid_current.fdb=INAReal_Data.current;//输入电流
 	PID_Set(&pid_current,currentP,currentI,currentD,2000);
-	PID_Control(&pid_current);
-	VAL_LIMIT(pid_current.pid_out,-MAX_TIM+1,MAX_TIM-1);
+	PID_Control(&pid_current);//-电压环输出-输入电流
+	VAL_LIMIT(pid_current.pid_out,-MAX_TIM,MAX_TIM);
 	IAN_I_put = IAN_I_put + pid_current.pid_out;
-	IAN_I_put = pid_current.pid_out;
-	VAL_LIMIT(IAN_I_put,0,MAX_TIM-1);
-	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, IAN_I_put);
+//  change_rate=Real_Voltage/MAXVoltage*1440;
+	VAL_LIMIT(IAN_I_put,0,MAX_TIM);
+	
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, IAN_I_put);
 }  
 /* USER CODE END Application */
 
