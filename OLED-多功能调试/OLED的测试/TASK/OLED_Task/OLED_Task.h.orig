@@ -1,0 +1,58 @@
+#ifndef __OLED_TASK_H
+#define __OLED_TASK_H
+
+#include "sys.h"
+//enum KEY_Mode
+//{
+//	
+
+//};
+typedef enum
+{	
+	 Cursor_Up = 0 ,
+	 Cursor_Down = 1 ,
+	 Cursor_Confirm = 2 
+}KEY_CursorOption;
+
+typedef enum 
+{
+	Start_Display = 0,
+	MainMenu_Display = 1,
+	Motor_Display = 2
+//	Servo_Display ,
+//	MPU_Display	
+}OLED_OptionDisplay;
+
+typedef enum
+{
+	Motor_WorkDisplay = 0
+//	Servo_WorkDisplay = 1,
+//	MPU_WorkDisplay = 2 
+}OLED_WorkDisplayOption;
+
+typedef enum
+{
+	Motor_FdbDisplay = 0 
+//	Servo_FdbDisplay = 1 ,
+//	MPU_FdbDisplay
+	
+}OLED_FeedbackDisplayOption;
+
+typedef enum
+{
+	Speed_Mode = 0,
+	Angle_Mode = 1
+	
+}Motor_ModeOption;
+
+typedef enum
+{
+	Expect_Set = 0 ,
+	Kp_Set = 1 ,
+	Kd_Set = 2 ,
+	Ki_Set = 3 
+}Motor_SetOption;
+extern void OLED_Task(void *pvParameters);
+
+
+#endif

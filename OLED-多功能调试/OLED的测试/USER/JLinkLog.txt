@@ -1,0 +1,44 @@
+T06A4 059:002 SEGGER J-Link V6.46 Log File (0000ms, 7644ms total)
+T06A4 059:002 DLL Compiled: May 23 2019 17:49:56 (0000ms, 7644ms total)
+T06A4 059:002 Logging started @ 2021-10-31 20:37 (0000ms, 7644ms total)
+T06A4 059:002 JLINK_SetWarnOutHandler(...) (0000ms, 7644ms total)
+T06A4 059:002 JLINK_OpenEx(...)
+Firmware: J-Link V9 compiled May  7 2021 16:26:12
+Hardware: V9.70
+S/N: 59768884
+Feature(s): RDI, GDB, FlashDL, FlashBP, JFlash
+TELNET listener socket opened on port 19021WEBSRV 
+Starting webserver (0031ms, 7675ms total)
+T06A4 059:002 WEBSRV Webserver running on local port 19080 (0031ms, 7675ms total)
+T06A4 059:002   returns O.K. (0031ms, 7675ms total)
+T06A4 059:033 JLINK_GetEmuCaps()  returns 0xB9FF7BBF (0000ms, 7675ms total)
+T06A4 059:033 JLINK_TIF_GetAvailable(...) (0001ms, 7676ms total)
+T06A4 059:034 JLINK_SetErrorOutHandler(...) (0000ms, 7676ms total)
+T06A4 059:034 JLINK_ExecCommand("ProjectFile = "D:\新建文件夹\OLED-多功能调试\OLED的测试\USER\JLinkSettings.ini"", ...).   returns 0x00 (0001ms, 7677ms total)
+T06A4 059:035 JLINK_ExecCommand("Device = STM32F103T8", ...). Device "STM32F103T8" selected.  returns 0x00 (0001ms, 7678ms total)
+T06A4 059:036 JLINK_ExecCommand("DisableConnectionTimeout", ...).   returns 0x01 (0000ms, 7678ms total)
+T06A4 059:036 JLINK_GetHardwareVersion()  returns 0x17AE8 (0000ms, 7678ms total)
+T06A4 059:036 JLINK_GetDLLVersion()  returns 64600 (0000ms, 7678ms total)
+T06A4 059:036 JLINK_GetFirmwareString(...) (0000ms, 7678ms total)
+T06A4 059:036 JLINK_GetDLLVersion()  returns 64600 (0000ms, 7678ms total)
+T06A4 059:036 JLINK_GetCompileDateTime() (0000ms, 7678ms total)
+T06A4 059:036 JLINK_GetFirmwareString(...) (0000ms, 7678ms total)
+T06A4 059:036 JLINK_GetHardwareVersion()  returns 0x17AE8 (0000ms, 7678ms total)
+T06A4 059:036 JLINK_TIF_Select(JLINKARM_TIF_SWD)  returns 0x00 (0001ms, 7679ms total)
+T06A4 059:037 JLINK_SetSpeed(500) (0000ms, 7679ms total)
+T06A4 059:037 JLINK_SetResetType(JLINKARM_RESET_TYPE_NORMAL)  returns JLINKARM_RESET_TYPE_NORMAL (0000ms, 7679ms total)
+T06A4 059:037 JLINK_Reset() >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed. >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed.
+JLINK_GetId() >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed. >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed.  returns 0x00000000
+ (0706ms, 9089ms total)
+T06A4 060:447 JLINK_GetId() >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed. >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x10B TIF> >0x10F TIF> >0x10B TIF> >0x10F TIF>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed.
+  returns 0x00000000 (0709ms, 9798ms total)
+T06A4 061:158 JLINK_GetFirmwareString(...) (0000ms, 9798ms total)
+T06A4 063:740 JLINK_Close() (0006ms, 9804ms total)
+T06A4 063:740  (0006ms, 9804ms total)
+T06A4 063:740 Closed (0006ms, 9804ms total)
