@@ -26,6 +26,7 @@ super_capacitor\stm32g4xx_it.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ha
 super_capacitor\stm32g4xx_it.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_adc.h
 super_capacitor\stm32g4xx_it.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc_ex.h
 super_capacitor\stm32g4xx_it.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_exti.h
+super_capacitor\stm32g4xx_it.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_fdcan.h
 super_capacitor\stm32g4xx_it.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_flash.h
 super_capacitor\stm32g4xx_it.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_flash_ex.h
 super_capacitor\stm32g4xx_it.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_flash_ramfunc.h
@@ -33,14 +34,4 @@ super_capacitor\stm32g4xx_it.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ha
 super_capacitor\stm32g4xx_it.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_pwr_ex.h
 super_capacitor\stm32g4xx_it.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim.h
 super_capacitor\stm32g4xx_it.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h
-super_capacitor\stm32g4xx_it.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_pwr.h
 super_capacitor\stm32g4xx_it.o: ../Core/Inc/stm32g4xx_it.h
-super_capacitor\stm32g4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-super_capacitor\stm32g4xx_it.o: ../Core/Inc/FreeRTOSConfig.h
-super_capacitor\stm32g4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
-super_capacitor\stm32g4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
-super_capacitor\stm32g4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
-super_capacitor\stm32g4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
-super_capacitor\stm32g4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
-super_capacitor\stm32g4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
-super_capacitor\stm32g4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h

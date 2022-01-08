@@ -245,9 +245,7 @@ ARM Macro Assembler    Page 4
   136 00000118 00000000        DCD              TIM6_DAC_IRQHandler ; TIM6 and 
                                                             DAC1&3 underrun err
                                                             ors
-  137 0000011C 00000000        DCD              TIM7_DAC_IRQHandler ; TIM7 and 
-                                                            DAC2&4 underrun err
-                                                            ors
+  137 0000011C 00000000        DCD              TIM7_IRQHandler ; TIM7
   138 00000120 00000000        DCD              DMA2_Channel1_IRQHandler 
                                                             ; DMA2 Channel 1
   139 00000124 00000000        DCD              DMA2_Channel2_IRQHandler 
@@ -258,14 +256,14 @@ ARM Macro Assembler    Page 4
                                                             ; DMA2 Channel 4
   142 00000130 00000000        DCD              DMA2_Channel5_IRQHandler 
                                                             ; DMA2 Channel 5
+  143 00000134 00000000        DCD              0           ; Reserved
+  144 00000138 00000000        DCD              0           ; Reserved
 
 
 
 ARM Macro Assembler    Page 5 
 
 
-  143 00000134 00000000        DCD              0           ; Reserved
-  144 00000138 00000000        DCD              0           ; Reserved
   145 0000013C 00000000        DCD              UCPD1_IRQHandler ; UCPD1
   146 00000140 00000000        DCD              COMP1_2_3_IRQHandler ; COMP1, C
                                                             OMP2 and COMP3
@@ -323,14 +321,14 @@ ARM Macro Assembler    Page 5
                                EQU              __Vectors_End - __Vectors
   188 000001D8         
   189 000001D8                 AREA             |.text|, CODE, READONLY
+  190 00000000         
+  191 00000000         ; Reset handler
 
 
 
 ARM Macro Assembler    Page 6 
 
 
-  190 00000000         
-  191 00000000         ; Reset handler
   192 00000000         Reset_Handler
                                PROC
   193 00000000                 EXPORT           Reset_Handler             [WEAK
@@ -338,9 +336,9 @@ ARM Macro Assembler    Page 6
   194 00000000                 IMPORT           SystemInit
   195 00000000                 IMPORT           __main
   196 00000000         
-  197 00000000 4806            LDR              R0, =SystemInit
+  197 00000000 4809            LDR              R0, =SystemInit
   198 00000002 4780            BLX              R0
-  199 00000004 4806            LDR              R0, =__main
+  199 00000004 4809            LDR              R0, =__main
   200 00000006 4700            BX               R0
   201 00000008                 ENDP
   202 00000008         
@@ -388,14 +386,14 @@ K]
   235 00000014                 EXPORT           DebugMon_Handler           [WEA
 K]
   236 00000014 E7FE            B                .
+  237 00000016                 ENDP
+  238 00000016         PendSV_Handler
 
 
 
 ARM Macro Assembler    Page 7 
 
 
-  237 00000016                 ENDP
-  238 00000016         PendSV_Handler
                                PROC
   239 00000016                 EXPORT           PendSV_Handler             [WEA
 K]
@@ -453,14 +451,14 @@ K]
    [WEAK]
   269 0000001A                 EXPORT           FDCAN1_IT0_IRQHandler          
    [WEAK]
+  270 0000001A                 EXPORT           FDCAN1_IT1_IRQHandler          
+   [WEAK]
 
 
 
 ARM Macro Assembler    Page 8 
 
 
-  270 0000001A                 EXPORT           FDCAN1_IT1_IRQHandler          
-   [WEAK]
   271 0000001A                 EXPORT           EXTI9_5_IRQHandler             
    [WEAK]
   272 0000001A                 EXPORT           TIM1_BRK_TIM15_IRQHandler      
@@ -517,15 +515,15 @@ ARM Macro Assembler    Page 8
    [WEAK]
   298 0000001A                 EXPORT           TIM6_DAC_IRQHandler            
    [WEAK]
-  299 0000001A                 EXPORT           TIM7_DAC_IRQHandler            
+  299 0000001A                 EXPORT           TIM7_IRQHandler                
+   [WEAK]
+  300 0000001A                 EXPORT           DMA2_Channel1_IRQHandler       
 
 
 
 ARM Macro Assembler    Page 9 
 
 
-   [WEAK]
-  300 0000001A                 EXPORT           DMA2_Channel1_IRQHandler       
    [WEAK]
   301 0000001A                 EXPORT           DMA2_Channel2_IRQHandler       
    [WEAK]
@@ -583,14 +581,14 @@ ARM Macro Assembler    Page 9
   336 0000001A         DMA1_Channel6_IRQHandler
   337 0000001A         ADC1_2_IRQHandler
   338 0000001A         USB_HP_IRQHandler
+  339 0000001A         USB_LP_IRQHandler
+  340 0000001A         FDCAN1_IT0_IRQHandler
 
 
 
 ARM Macro Assembler    Page 10 
 
 
-  339 0000001A         USB_LP_IRQHandler
-  340 0000001A         FDCAN1_IT0_IRQHandler
   341 0000001A         FDCAN1_IT1_IRQHandler
   342 0000001A         EXTI9_5_IRQHandler
   343 0000001A         TIM1_BRK_TIM15_IRQHandler
@@ -620,7 +618,7 @@ ARM Macro Assembler    Page 10
   367 0000001A         SPI3_IRQHandler
   368 0000001A         UART4_IRQHandler
   369 0000001A         TIM6_DAC_IRQHandler
-  370 0000001A         TIM7_DAC_IRQHandler
+  370 0000001A         TIM7_IRQHandler
   371 0000001A         DMA2_Channel1_IRQHandler
   372 0000001A         DMA2_Channel2_IRQHandler
   373 0000001A         DMA2_Channel3_IRQHandler
@@ -648,36 +646,47 @@ ARM Macro Assembler    Page 10
   395 0000001C                 ALIGN
   396 0000001C         
   397 0000001C         ;*******************************************************
+                       ************************
+  398 0000001C         ; User Stack and Heap initialization
 
 
 
 ARM Macro Assembler    Page 11 
 
 
-                       ************************
-  398 0000001C         ; User Stack and Heap initialization
   399 0000001C         ;*******************************************************
                        ************************
   400 0000001C                 IF               :DEF:__MICROLIB
-  401 0000001C         
-  402 0000001C                 EXPORT           __initial_sp
-  403 0000001C                 EXPORT           __heap_base
-  404 0000001C                 EXPORT           __heap_limit
-  405 0000001C         
-  406 0000001C                 ELSE
-  421                          ENDIF
-  422 0000001C         
-  423 0000001C                 END
+  407 0000001C         
+  408 0000001C                 IMPORT           __use_two_region_memory
+  409 0000001C                 EXPORT           __user_initial_stackheap
+  410 0000001C         
+  411 0000001C         __user_initial_stackheap
+  412 0000001C         
+  413 0000001C 4804            LDR              R0, =  Heap_Mem
+  414 0000001E 4905            LDR              R1, =(Stack_Mem + Stack_Size)
+  415 00000020 4A05            LDR              R2, = (Heap_Mem +  Heap_Size)
+  416 00000022 4B06            LDR              R3, = Stack_Mem
+  417 00000024 4770            BX               LR
+  418 00000026         
+  419 00000026 00 00           ALIGN
+  420 00000028         
+  421 00000028                 ENDIF
+  422 00000028         
+  423 00000028                 END
               00000000 
+              00000000 
+              00000000 
+              00000400 
+              00000200 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=super_capacitor\startup_stm32g431xx.d -osuper_capacitor\startup
 _stm32g431xx.o -I..\Core\Inc -I.\RTE\_Super_Capacitor -IC:\Users\xiang\AppData\
 Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include -IC:\Users\xiang\AppData\Loc
 al\Arm\Packs\Keil\STM32G4xx_DFP\1.4.0\Drivers\CMSIS\Device\ST\STM32G4xx\Include
- --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 528" --pre
-define="_RTE_ SETA 1" --predefine="STM32G431xx SETA 1" --list=startup_stm32g431
-xx.lst startup_stm32g431xx.s
+ --predefine="__UVISION_VERSION SETA 528" --predefine="_RTE_ SETA 1" --predefin
+e="STM32G431xx SETA 1" --list=startup_stm32g431xx.lst startup_stm32g431xx.s
 
 
 
@@ -698,8 +707,9 @@ Symbol: Stack_Mem
    Definitions
       At line 39 in file startup_stm32g431xx.s
    Uses
-      None
-Comment: Stack_Mem unused
+      At line 414 in file startup_stm32g431xx.s
+      At line 416 in file startup_stm32g431xx.s
+
 __initial_sp 00000400
 
 Symbol: __initial_sp
@@ -707,8 +717,7 @@ Symbol: __initial_sp
       At line 40 in file startup_stm32g431xx.s
    Uses
       At line 64 in file startup_stm32g431xx.s
-      At line 402 in file startup_stm32g431xx.s
-
+Comment: __initial_sp used once
 3 symbols
 
 
@@ -730,24 +739,25 @@ Symbol: Heap_Mem
    Definitions
       At line 51 in file startup_stm32g431xx.s
    Uses
-      None
-Comment: Heap_Mem unused
+      At line 413 in file startup_stm32g431xx.s
+      At line 415 in file startup_stm32g431xx.s
+
 __heap_base 00000000
 
 Symbol: __heap_base
    Definitions
       At line 50 in file startup_stm32g431xx.s
    Uses
-      At line 403 in file startup_stm32g431xx.s
-Comment: __heap_base used once
+      None
+Comment: __heap_base unused
 __heap_limit 00000200
 
 Symbol: __heap_limit
    Definitions
       At line 52 in file startup_stm32g431xx.s
    Uses
-      At line 404 in file startup_stm32g431xx.s
-Comment: __heap_limit used once
+      None
+Comment: __heap_limit unused
 4 symbols
 
 
@@ -1449,9 +1459,9 @@ Symbol: TIM6_DAC_IRQHandler
       At line 136 in file startup_stm32g431xx.s
       At line 298 in file startup_stm32g431xx.s
 
-TIM7_DAC_IRQHandler 0000001A
+TIM7_IRQHandler 0000001A
 
-Symbol: TIM7_DAC_IRQHandler
+Symbol: TIM7_IRQHandler
    Definitions
       At line 370 in file startup_stm32g431xx.s
    Uses
@@ -1596,7 +1606,15 @@ Symbol: WWDG_IRQHandler
       At line 82 in file startup_stm32g431xx.s
       At line 249 in file startup_stm32g431xx.s
 
-82 symbols
+__user_initial_stackheap 0000001C
+
+Symbol: __user_initial_stackheap
+   Definitions
+      At line 411 in file startup_stm32g431xx.s
+   Uses
+      At line 409 in file startup_stm32g431xx.s
+Comment: __user_initial_stackheap used once
+83 symbols
 
 
 
@@ -1610,7 +1628,8 @@ Symbol: Heap_Size
       At line 47 in file startup_stm32g431xx.s
    Uses
       At line 51 in file startup_stm32g431xx.s
-Comment: Heap_Size used once
+      At line 415 in file startup_stm32g431xx.s
+
 Stack_Size 00000400
 
 Symbol: Stack_Size
@@ -1618,7 +1637,8 @@ Symbol: Stack_Size
       At line 36 in file startup_stm32g431xx.s
    Uses
       At line 39 in file startup_stm32g431xx.s
-Comment: Stack_Size used once
+      At line 414 in file startup_stm32g431xx.s
+
 __Vectors_Size 000001D8
 
 Symbol: __Vectors_Size
@@ -1650,5 +1670,13 @@ Symbol: __main
    Uses
       At line 199 in file startup_stm32g431xx.s
 Comment: __main used once
-2 symbols
-434 symbols in table
+__use_two_region_memory 00000000
+
+Symbol: __use_two_region_memory
+   Definitions
+      At line 408 in file startup_stm32g431xx.s
+   Uses
+      None
+Comment: __use_two_region_memory unused
+3 symbols
+437 symbols in table

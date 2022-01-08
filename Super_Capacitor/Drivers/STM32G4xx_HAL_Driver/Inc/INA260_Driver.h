@@ -8,8 +8,8 @@
 typedef struct 
 {
   u16 voltage;
-	int current;
 	u16 power;
+	u16 current;
 }InaReal_Data;
 
 void INA_REG_Write(u8 reg,u16 data);

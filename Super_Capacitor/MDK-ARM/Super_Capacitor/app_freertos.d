@@ -35,6 +35,7 @@ super_capacitor\app_freertos.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ha
 super_capacitor\app_freertos.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_adc.h
 super_capacitor\app_freertos.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_adc_ex.h
 super_capacitor\app_freertos.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_exti.h
+super_capacitor\app_freertos.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_fdcan.h
 super_capacitor\app_freertos.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_flash.h
 super_capacitor\app_freertos.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_flash_ex.h
 super_capacitor\app_freertos.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_flash_ramfunc.h
@@ -42,7 +43,6 @@ super_capacitor\app_freertos.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ha
 super_capacitor\app_freertos.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_pwr_ex.h
 super_capacitor\app_freertos.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim.h
 super_capacitor\app_freertos.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h
-super_capacitor\app_freertos.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_ll_pwr.h
 super_capacitor\app_freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 super_capacitor\app_freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
 super_capacitor\app_freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
@@ -52,3 +52,4 @@ super_capacitor\app_freertos.o: ../Core/Inc/adc.h
 super_capacitor\app_freertos.o: ../Core/Inc/tim.h
 super_capacitor\app_freertos.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/PID_Control.h
 super_capacitor\app_freertos.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/INA260_Driver.h
+super_capacitor\app_freertos.o: ../Core/Inc/fdcan.h
