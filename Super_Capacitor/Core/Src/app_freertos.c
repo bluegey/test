@@ -53,6 +53,8 @@ else if(val>=max)\
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
+u8 TEST_IS_OR_NOT=0;
+u8 error_grade=0;
 u8 volt_flag=0;
 InaReal_Data  INAReal_Data={0};
 Can_Rx_Union  Can_Rx_Data;
@@ -194,7 +196,7 @@ void MX_FREERTOS_Init(void) {
   * @retval None
   */
 /* USER CODE END Header_Start_Adc_Task */
-u8 Adc_flag=0;
+
 void Start_Adc_Task(void const * argument)
 {
   /* USER CODE BEGIN Start_Adc_Task */
@@ -204,14 +206,15 @@ void Start_Adc_Task(void const * argument)
     HAL_ADC_Start(&hadc2);
 		if(HAL_ADC_PollForConversion(&hadc2,0xff)==HAL_OK)
 			{
-				Adc_flag=1;
 			 adc_voltage=HAL_ADC_GetValue(&hadc2)*3.3/4096;
 			}
 			else
 			{
-			  Adc_flag=2;
-				LED0();
-				LED1();
+				
+				if(error_grade<ADC_ERROR_GRADE)
+			  error_grade=ADC_ERROR_GRADE;
+				else error_grade=0;
+				LED1(error_grade);
 			}
 		Real_Voltage=adc_voltage*7.62f;
 		INA_IN=INA_IN+1;
@@ -231,14 +234,18 @@ void Start_Adc_Task(void const * argument)
 * @retval None
 */
 /* USER CODE END Header_Start_Power_Task */
+
 void Start_Power_Task(void const * argument)
 {
   /* USER CODE BEGIN Start_Power_Task */
 	INA_Init();
   /* Infinite loop */
   for(;;)
+  {	
+	TEST_IS_OR_NOT=HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_2);
+  if (TEST_IS_OR_NOT==1)
   {
-#if (TEST_IS_OR_NOT==1)
+
 		if(Can_Rx_Data.Rx_Data.flag ==1)
 		{
 		 Power_Mod_Select(Can_Rx_Data.Rx_Data .power_limit ,1);
@@ -251,8 +258,10 @@ void Start_Power_Task(void const * argument)
     {
 		Power_Mod_Select(40 ,0);
 		}
-#elif (TEST_IS_OR_NOT==0)
-		if(Real_Voltage<=TEST_PWER)
+	}
+ else if (TEST_IS_OR_NOT==0)
+  {
+	if(Real_Voltage<=TEST_PWER)
 		{ 
 			flag123=1;
 		   
@@ -269,7 +278,8 @@ void Start_Power_Task(void const * argument)
 		{
 			Power_Mod_Select(100,2);
 		}
-#endif
+}
+
     
     osDelay(1);
   }
@@ -304,16 +314,20 @@ void Start_Can_Task(void const * argument)
 		}
 		Send_Massage(0x300,Send_Data);
 	   osDelay(1);		
-		 if(HAL_FDCAN_GetRxMessage(&hfdcan1,FDCAN_RX_FIFO0,&RxHeader,Can_Rx_Data.Array_RX_data)==HAL_OK&&Adc_flag==1)
+		 if(HAL_FDCAN_GetRxMessage(&hfdcan1,FDCAN_RX_FIFO0,&RxHeader,Can_Rx_Data.Array_RX_data)==HAL_OK)
 		 {
 			 err_time=0;
 			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
 		 }
-		 else if(Adc_flag==1&&HAL_FDCAN_GetRxMessage(&hfdcan1,FDCAN_RX_FIFO0,&RxHeader,Can_Rx_Data.Array_RX_data)!=HAL_OK)
+		 else if(HAL_FDCAN_GetRxMessage(&hfdcan1,FDCAN_RX_FIFO0,&RxHeader,Can_Rx_Data.Array_RX_data)!=HAL_OK)
 		 {
-			 err_time++;
-			 if(err_time>=500)
-			 { LED1();err_time=500;}
+				if(error_grade<CAN_ERROR_GRADE)
+			  error_grade=CAN_ERROR_GRADE;	
+       else	error_grade=0;			
+			 LED1(error_grade);
+//			 err_time++;
+//			 if(err_time>=500)
+//			 { LED1();err_time=500;}
 		 }
     osDelay(1);
   }
@@ -412,7 +426,7 @@ void current_select(float current,float power)
 			}
 			VAL_LIMIT(IAN_I_put,0,MAX_TIM);
 			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, IAN_I_put);
-			volt_flag=1;
+			LED0(100);
 		}
 		else if(Real_Voltage<5&&Real_Voltage>2)
 		{
@@ -426,7 +440,7 @@ void current_select(float current,float power)
 			}
 			VAL_LIMIT(IAN_I_put,0,MAX_TIM);
 			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, IAN_I_put);
-			volt_flag=1;
+			LED0(100);
 		}
 		else if(Real_Voltage<10&&Real_Voltage>5)
 		{
@@ -440,7 +454,7 @@ void current_select(float current,float power)
 				IAN_I_put = IAN_I_put - 0.5f;
 			}
 			VAL_LIMIT(IAN_I_put,0,MAX_TIM);
-			volt_flag=1;
+			LED0(100);
 			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, IAN_I_put);
 		}
 		else
@@ -454,15 +468,19 @@ void current_select(float current,float power)
 				voltate = voltate12;
 			}
 			Current_PID(current,voltate);
-			if(Real_Voltage<21)
+			if(Real_Voltage<15)
 			{
-				volt_flag=1;
+				LED0(100);
 //				HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
 			}
-			else
+			else if(Real_Voltage>=15&&Real_Voltage<20)
 			{
-				volt_flag=2;
+				LED0(300);
 //				HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
+			}
+			else if(Real_Voltage>=20)
+			{
+			 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET);
 			}
 		}
 	}			
@@ -488,7 +506,8 @@ void Current_PID(int MAXCurrent,float MAXVoltage)
 	VAL_LIMIT(IAN_I_put,0,MAX_TIM);
 	
 	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, IAN_I_put);
-}  
+}
+
 /* USER CODE END Application */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -37,15 +37,15 @@ extern FDCAN_HandleTypeDef hfdcan1;
 /* USER CODE BEGIN Private defines */
 typedef struct
 {
-  u16 super_volt;
-  u16 power;
-  u16 current;
+  u16 super_volt;//电压
+  u16 power;//功率
+  u16 current;//电流
 }Tx_data;
 typedef struct 
 {
- uint16_t power_limit;
- uint16_t flag;
- uint16_t  Buffer_Energy;
+ uint16_t power_limit;//底盘功率上限
+ uint16_t flag;//是否使用超级电容标志位
+ uint16_t  Buffer_Energy;//缓冲能量
 }Re_Data;
 typedef union 
 {

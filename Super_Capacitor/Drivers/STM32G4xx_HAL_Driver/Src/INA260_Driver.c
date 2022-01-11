@@ -1,7 +1,8 @@
 #include "iic.h"
+#include "main.h"
 #include "INA260_Driver.h"
 #define N 12
-
+extern u8 error_grade;
 
 void INA_REG_Write(u8 reg,u16 data)
 {
@@ -33,7 +34,14 @@ void INA_Read_Byte(u8 reg,u8 *data)
 	IIC_Start();
 	IIC_SendByte(INA260_ADDRESS|0x01);
 	IIC_WaitAck();
-	
+	if(IIC_WaitAck()==1)
+	{
+	 	if(error_grade<IIC_ERROR_GRADE)
+		 error_grade=IIC_ERROR_GRADE;
+		LED1(error_grade);
+	}
+	else
+		error_grade=0;
 	*data=IIC_ReadByte(1);
 	data++;
 	*data=IIC_ReadByte(0);

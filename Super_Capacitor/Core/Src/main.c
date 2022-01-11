@@ -1,4 +1,13 @@
 /* USER CODE BEGIN Header */
+/*
+  *说明 
+	*LED1闪烁速度表示电容电压  电压越高闪烁越慢 若电压大于20则LED1常亮
+  *LED2为错误指示灯，采用c620电调ID闪烁原理，闪烁几下代表发生相应的错误
+  *错误优先级高的会优先显示  例：AD采集错误为1，CAN通信错误为2，若AD采集错误与CAN通信错误同时发生，LED2闪烁2下
+	*错误优先级可在main.h更改
+	*TEST_IS_OR_NOT为测试或者正常工作标志位由硬件控制
+*/
+
 /**
   ******************************************************************************
   * @file           : main.c
@@ -170,19 +179,24 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-void LED0()
+void LED0(u16 delay_time)
 {
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_RESET);
-  osDelay(100);
+  osDelay(delay_time);
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET);
-	osDelay(100);
+	osDelay(delay_time);
+	
 }
-void LED1()
+void LED1(u8 error_grade)
 {
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
+for(int i=0;i<error_grade;i++)
+  {
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
   osDelay(100);
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
 	osDelay(100);
+	}
+	osDelay(1000);
 }
 /* USER CODE END 4 */
 

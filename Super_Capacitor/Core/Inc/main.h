@@ -37,11 +37,15 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-#define TEST_IS_OR_NOT  1
+//¥ÌŒÛ”≈œ»º∂
+#define ADC_ERROR_GRADE  1
+#define CAN_ERROR_GRADE  2
+#define IIC_ERROR_GRADE  3
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
+
 typedef unsigned           int uint32_t;
 typedef unsigned          char uint8_t;
 typedef unsigned short     int uint16_t;
@@ -58,8 +62,8 @@ typedef uint8_t  u8;
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
-void LED0(void);
-void LED1(void);
+void LED0(u16 delay_time);
+void LED1(u8 error_grade);
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */
