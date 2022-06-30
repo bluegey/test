@@ -42,6 +42,5 @@
 ..\obj\color.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 ..\obj\color.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\color.o: ..\SYSTEM\delay\delay.h
-..\obj\color.o: ..\HARDWARE\STMFLASH\stmflash.h
 ..\obj\color.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 ..\obj\color.o: ..\HARDWARE\SDIO\sdio_sdcard.h

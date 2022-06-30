@@ -1,0 +1,19 @@
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'Target 1'
+compiling control.c...
+..\HARDWARE\CONTROL\control.c(369): warning:  #550-D: variable "flag"  was set but never used
+  	u8 i_2 = 0, flag = 0, count_color = 0, distinguish = 0;
+..\HARDWARE\CONTROL\control.c(369): warning:  #177-D: variable "count_color"  was declared but never referenced
+  	u8 i_2 = 0, flag = 0, count_color = 0, distinguish = 0;
+..\HARDWARE\CONTROL\control.c(369): warning:  #177-D: variable "distinguish"  was declared but never referenced
+  	u8 i_2 = 0, flag = 0, count_color = 0, distinguish = 0;
+..\HARDWARE\CONTROL\control.c(370): warning:  #550-D: variable "count_spot"  was set but never used
+  	static u8 j = 0, count_spot = 0;
+..\HARDWARE\CONTROL\control.c: 4 warnings, 0 errors
+compiling main.c...
+compiling color.c...
+linking...
+Program Size: Code=33458 RO-data=6634 RW-data=412 ZI-data=2604  
+FromELF: creating hex file...
+"..\OBJ\OV7670.axf" - 0 Error(s), 4 Warning(s).
+Build Time Elapsed:  00:00:05

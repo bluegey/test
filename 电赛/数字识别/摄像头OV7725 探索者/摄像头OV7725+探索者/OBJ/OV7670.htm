@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\OBJ\OV7670.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OBJ\OV7670.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sat Nov 13 06:36:10 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Jun 30 16:59:45 2022
 <BR><P>
 <H3>Maximum Stack Usage =        264 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -558,7 +558,7 @@ Global Symbols
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Corrode
 </UL>
 
-<P><STRONG><a name="[77]"></a>Corrode</STRONG> (Thumb, 4282 bytes, Stack size 48 bytes, color.o(i.Corrode))
+<P><STRONG><a name="[77]"></a>Corrode</STRONG> (Thumb, 4242 bytes, Stack size 48 bytes, color.o(i.Corrode))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = Corrode &rArr; LCD_DrawRectangle &rArr; LCD_DrawLine &rArr; LCD_DrawPoint &rArr; LCD_SetCursor &rArr; LCD_WR_REG
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_DrawRectangle
@@ -572,11 +572,10 @@ Global Symbols
 <P><STRONG><a name="[9]"></a>DebugMon_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.DebugMon_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f40_41xxx.o(RESET)
 </UL>
-<P><STRONG><a name="[7c]"></a>Digital_recognition</STRONG> (Thumb, 1846 bytes, Stack size 48 bytes, color.o(i.Digital_recognition))
-<BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = Digital_recognition &rArr; LCD_DrawRectangle &rArr; LCD_DrawLine &rArr; LCD_DrawPoint &rArr; LCD_SetCursor &rArr; LCD_WR_REG
+<P><STRONG><a name="[7c]"></a>Digital_recognition</STRONG> (Thumb, 1658 bytes, Stack size 48 bytes, color.o(i.Digital_recognition))
+<BR><BR>[Stack]<UL><LI>Max Depth = 116<LI>Call Chain = Digital_recognition &rArr; ReadColor &rArr; LCD_ReadPoint &rArr; LCD_SetCursor &rArr; LCD_WR_REG
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_DrawRectangle
-<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadColor
+<BR>[Calls]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadColor
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RGB2HSL
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ColorMatch
 </UL>
@@ -726,7 +725,6 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_DrawLine
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Feature_Recognize_Start_Phoenix
-<LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Digital_recognition
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Corrode
 </UL>
 
