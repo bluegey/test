@@ -443,16 +443,16 @@ void OLED_Init(void)
 {
     GPIO_InitTypeDef  GPIO_InitStructure;
 
-//    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOF, ENABLE);
-//    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7|GPIO_Pin_6;
-//    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
-//    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//速度50MHz GPIO_Pin_2
-//    GPIO_Init(GPIOF, &GPIO_InitStructure);
-//    GPIO_SetBits(GPIOF,GPIO_Pin_6|GPIO_Pin_7);
+//  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOF, ENABLE);
+//  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7|GPIO_Pin_6;
+//  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
+//  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//速度50MHz GPIO_Pin_2
+//  GPIO_Init(GPIOF, &GPIO_InitStructure);
+//  GPIO_SetBits(GPIOF,GPIO_Pin_6|GPIO_Pin_7);
 ////	
-//	  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-	 RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB | RCC_APB2Periph_AFIO, ENABLE);
-	  	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable,ENABLE);
+//	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+	  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB | RCC_APB2Periph_AFIO, ENABLE);
+	  GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable,ENABLE);
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//速度50MHz GPIO_Pin_2

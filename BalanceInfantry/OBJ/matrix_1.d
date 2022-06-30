@@ -1,0 +1,10 @@
+..\obj\matrix_1.o: ..\Task\MpuTask\Matrix.c
+..\obj\matrix_1.o: ..\Task\MpuTask\Matrix.h
+..\obj\matrix_1.o: ..\Task\MpuTask\arm_math.h
+..\obj\matrix_1.o: ..\CORE\core_cm4.h
+..\obj\matrix_1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\matrix_1.o: ..\CORE\core_cmInstr.h
+..\obj\matrix_1.o: ..\CORE\core_cmFunc.h
+..\obj\matrix_1.o: ..\CORE\core_cm4_simd.h
+..\obj\matrix_1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\obj\matrix_1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

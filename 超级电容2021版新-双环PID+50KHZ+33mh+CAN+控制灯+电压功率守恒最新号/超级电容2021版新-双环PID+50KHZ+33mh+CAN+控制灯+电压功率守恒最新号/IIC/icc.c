@@ -1,0 +1,193 @@
+#include "iic.h"
+/*
+*********************************************************************************
+函数定义
+*********************************************************************************
+*/
+/////////////////////////////////////////////////////////////////////////////////
+//IIC端口初始化
+/////////////////////////////////////////////////////////////////////////////////
+void IIC_GPIO_Init(){
+	GPIO_InitTypeDef GPIO_InitStructure;
+
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+}
+/////////////////////////////////////////////////////////////////////////////////
+//IIC延时
+/////////////////////////////////////////////////////////////////////////////////
+void IIC_Delay(){
+	u8 i = 30;
+	while(i--);
+}
+
+void IIC_Delay5ms(){
+	u32 i = 5000;
+	while(i--);
+}
+/////////////////////////////////////////////////////////////////////////////////
+//IIC传输开始
+/////////////////////////////////////////////////////////////////////////////////
+bool IIC_Start(){
+	SDA_Out_H;				 	//SCL为高时将SDA由高拉低为开始传输标志
+	SCL_H;
+	IIC_Delay();
+	if(!SDA_In){				//如果SDA为低说明总线忙，退出
+		return FALSE;
+	}
+	IIC_Delay();
+	SDA_Out_L;					//否则，拉低总线
+	if(SDA_In){					//如果SDA为高说明总线出错，退出
+		return FALSE;
+	}
+	SDA_Out_L;
+	IIC_Delay();
+	return TRUE;				//开始标志设置成功
+}
+//////////////////////////////////////////////////////////////////////////////////////
+//IIC传输结束
+//////////////////////////////////////////////////////////////////////////////////////
+void IIC_Stop(){
+	SCL_L;					   	//SCL为高时将SDA由低拉高为传输结束
+	IIC_Delay();
+	SDA_Out_L;
+	IIC_Delay();
+	SCL_H;
+	IIC_Delay();
+	SDA_Out_H;
+	IIC_Delay();
+}
+//////////////////////////////////////////////////////////////////////////////////////
+//IIC应答
+//////////////////////////////////////////////////////////////////////////////////////
+void IIC_Ack(){				 	//在第9个时钟周期SCL为高时，SDA为低
+	SCL_L;
+	IIC_Delay();
+	SDA_Out_L;
+	IIC_Delay();
+	SCL_H;
+	IIC_Delay();
+	SCL_L;
+	IIC_Delay();
+}
+////////////////////////////////////////////////////////////////////////////////////////
+//IIC无应答
+////////////////////////////////////////////////////////////////////////////////////////
+void IIC_NoAck(){			  	//在第9个时钟周期SDA一直为高
+	SCL_L;
+	IIC_Delay();
+	SDA_Out_H;
+	IIC_Delay();
+	SCL_H;
+	IIC_Delay();
+	SCL_L;
+	IIC_Delay();
+}
+//////////////////////////////////////////////////////////////////////////////////////////
+//等待应答信号
+//////////////////////////////////////////////////////////////////////////////////////////
+bool IIC_WaitAck(){
+	SCL_L;
+	IIC_Delay();
+	SDA_Out_H;
+	IIC_Delay();
+	SCL_H;
+	IIC_Delay();
+	if(SDA_In){
+		SCL_L;
+		IIC_Delay();
+		return FALSE;
+	}
+	SCL_L;
+	IIC_Delay();
+	return TRUE;
+}
+//////////////////////////////////////////////////////////////////////////////////////////
+//IIC发送字节
+//////////////////////////////////////////////////////////////////////////////////////////
+void IIC_SendByte(u8 SendByte){
+	u8 i = 8;
+	while(i--){
+		SCL_L;
+		IIC_Delay();
+		if(SendByte & 0x80){
+			SDA_Out_H;
+		} else {
+			SDA_Out_L;
+		}
+		SendByte <<= 1;
+		IIC_Delay();
+		SCL_H;
+		IIC_Delay();
+	}
+	SCL_L;
+	IIC_Delay();
+}
+////////////////////////////////////////////////////////////////////////////////////////////
+//IIC读取字节
+////////////////////////////////////////////////////////////////////////////////////////////
+u8 IIC_ReadByte(){
+	u8 i =8;
+	u8 ReadByte = 0;
+	while(i--){
+		SDA_Out_H;
+		ReadByte <<= 1;
+		SCL_L;
+		IIC_Delay();
+		SCL_H;
+		IIC_Delay();
+		if(SDA_In){
+			ReadByte |= 0x01;
+		}
+	}
+	SCL_L;
+	IIC_Delay();
+	return ReadByte;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////
+//IIC单字节写入
+///////////////////////////////////////////////////////////////////////////////////////////////
+bool IIC_SingleWrite(u8 SLAVE_Address, u8 REG_Address, u8 REG_Data){
+	if(!IIC_Start()){
+		return FALSE;
+	}
+	IIC_SendByte(SLAVE_Address + 0);		//从设备地址+0为写
+	if(!IIC_WaitAck()){
+		IIC_Stop();
+		return FALSE;
+	}
+	IIC_SendByte(REG_Address);
+	IIC_WaitAck();
+	IIC_SendByte(REG_Data);
+	IIC_WaitAck();
+	IIC_Stop();
+	IIC_Delay5ms();
+	return TRUE;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////
+//IIC单字节读取
+///////////////////////////////////////////////////////////////////////////////////////////////
+u8 IIC_SingleRead(u8 SLAVE_Address, u8 REG_Address){
+	u8 REG_Data;
+	if(!IIC_Start()){
+		return FALSE;		
+	}
+	IIC_SendByte(SLAVE_Address + 0);
+	if(!IIC_WaitAck()){
+		IIC_Stop();
+		return FALSE;
+	}
+	IIC_SendByte(REG_Address);
+	IIC_WaitAck();
+	IIC_Start();
+	IIC_SendByte(SLAVE_Address + 1);
+	IIC_WaitAck();
+	REG_Data = IIC_ReadByte();
+	IIC_NoAck();
+	IIC_Stop();
+	return REG_Data;
+}
